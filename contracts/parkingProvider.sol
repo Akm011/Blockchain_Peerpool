@@ -2,78 +2,55 @@
 
 pragma solidity ^0.8.0;
 
-contract parkingProvider {
+contract driversContract {
     
-   struct parkingLot{
+   struct driver{
       uint id;
     //   string parkingId; // auto - generated
       string emailId;
       string name;
       address walletAddress;
-      uint fee;
-      uint totalSlots;
-      uint availableParkingSpots; // initially 0
-      // location of parking lot (lattitude and longitude)
-      int lattitudeInt;
-      int lattitudeDec;
-      int longitudeInt;
-      int longitudeDec;
+      string vehicleType;
    }
   
-   parkingLot[] public parkingLots; 
+   driver[] public drivers; 
 
-   uint256 public totalParkingLots;
+   uint256 public totaldrivers;
   
   
    constructor() {
-      totalParkingLots = 0;
+      totaldrivers = 0;
    }
 
    // creating a new paking lot if it is not already created
-   function createParkingLot( string memory emailId ,address payable walletAddress, string memory name, uint fee, uint totalSlots, int lattitudeInt,int lattitudeDec, int longitudeInt,int longitudeDec) public returns (int){
+   function createDriver( string memory emailId ,address payable walletAddress, string memory name,string memory vehicleType) public returns (int){
 
-      parkingLots.push(parkingLot(totalParkingLots+1,emailId,name,walletAddress,fee,totalSlots,totalSlots,lattitudeInt,lattitudeDec,longitudeInt,longitudeDec));
-      totalParkingLots++;
+      drivers.push(driver(totaldrivers+1,emailId,name,walletAddress,vehicleType));
+      totaldrivers++;
       
-      return int(totalParkingLots);
-   }
-
-   // updating cost per hour
-   function updateFee(uint id, uint fee) public returns (bool success){
-      // if id is not valid
-      if(id>=totalParkingLots)    return false;
-      parkingLots[id].fee=fee;
-      return true;
-   }
-
-   // updating total slots
-   function updateTotalSlot(uint id, uint totalSlots) public returns (bool success){
-      // if id is not valid
-      if(id>=totalParkingLots)    return false;
-      parkingLots[id].totalSlots=totalSlots;
-      return true;
+      return int(totaldrivers);
    }
 
    
    // delete a parking lot
-   function deleteParkingLot(uint id) public returns(bool success){
+   function deletedriver(uint id) public returns(bool success){
 
       // if id is not valid
-      if(id>=totalParkingLots)    return false;
+      if(id>=totaldrivers)    return false;
 
-      parkingLots[id]=parkingLots[totalParkingLots-1];
-      delete parkingLots[totalParkingLots-1];
-      totalParkingLots--;
+      drivers[id]=drivers[totaldrivers-1];
+      delete drivers[totaldrivers-1];
+      totaldrivers--;
       return true;
    }
    
      
-   function getParkingLot(uint id) public view returns(parkingLot memory){
-      return parkingLots[id];
+   function getdriver(uint id) public view returns(driver memory){
+      return drivers[id];
    }     
    
    
-   function getTotalParkingLots() public view returns (uint256 TotalParkingLots){
-      return totalParkingLots;
+   function getTotaldrivers() public view returns (uint256 Totaldrivers){
+      return totaldrivers;
    }
 }
